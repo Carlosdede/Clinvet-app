@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 
 export default function EditarPaciente() {
   const { id_cachorro, nome, raca, idade } = useLocalSearchParams();

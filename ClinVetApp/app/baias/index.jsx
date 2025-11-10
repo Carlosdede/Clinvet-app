@@ -11,7 +11,7 @@ import { useRouter, useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ListarBaias() {

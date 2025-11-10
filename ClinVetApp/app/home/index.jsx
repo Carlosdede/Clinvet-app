@@ -5,7 +5,7 @@ import { Bell } from "lucide-react-native";
 import MetricsChart from "../graficos/metricas";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 import { endpoints } from "../../src/api/endpoints";
 import api from "../../src/api/api";
 

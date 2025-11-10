@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { BarChart, LineChart } from "react-native-chart-kit";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { endpoints } from "../../src/api/endpoints";
 import api from "../../src/api/api";

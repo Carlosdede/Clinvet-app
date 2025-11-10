@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 
 export default function NovoPaciente() {
   const [nome, setNome] = useState("");

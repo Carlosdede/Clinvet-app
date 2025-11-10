@@ -5,7 +5,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Picker } from "@react-native-picker/picker";
 import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
-import CustomHeader from "../../components/CustomHeader";
+import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function EditarBaia() {

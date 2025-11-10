@@ -1,0 +1,123 @@
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Image,
+  StyleSheet,
+} from "react-native";
+import { router } from "expo-router";
+import api from "../src/api/api";
+import { endpoints } from "../src/api/endpoints";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export default function LoginScreen() {
+  const [username, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
+  async function handleLogin() {
+    try {
+      const { data } = await api.post(endpoints.login, { username, senha });
+
+      if (data?.token) {
+        await AsyncStorage.setItem("token", data.token);
+        router.push("/home");
+      } else {
+        Alert.alert("Erro", "Credenciais inválidas.");
+      }
+    } catch (e) {
+      console.error("Erro no login:", e);
+      Alert.alert("Erro", "Falha ao comunicar com o servidor.");
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/images/logo.png")}
+        style={styles.logo}
+      />
+
+      <Text style={styles.title}>ClinVet Security</Text>
+
+      <TextInput
+        placeholder="Email"
+        placeholderTextColor="#B5A99D"
+        autoCapitalize="none"
+        keyboardType="email-address"
+        value={username}
+        onChangeText={setEmail}
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholder="Senha"
+        placeholderTextColor="#B5A99D"
+        secureTextEntry
+        value={senha}
+        onChangeText={setSenha}
+        style={styles.input}
+      />
+
+      <Text style={styles.forgotText}>Esqueceu a senha?</Text>
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#6B4C3A",
+    marginBottom: 30,
+  },
+  input: {
+    width: "85%",
+    borderWidth: 1,
+    borderColor: "#C6B5A0",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 15,
+    color: "#4A3B31",
+    backgroundColor: "#FFF",
+    marginBottom: 14,
+  },
+  forgotText: {
+    width: "85%",
+    fontSize: 12,
+    color: "#7C6B5F",
+    textAlign: "left",
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "#6B4C3A",
+    borderRadius: 25,
+    width: "85%",
+    paddingVertical: 14,
+  },
+  buttonText: {
+    color: "#FFF",
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+});
