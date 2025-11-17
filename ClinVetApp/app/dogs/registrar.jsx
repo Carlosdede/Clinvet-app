@@ -5,6 +5,7 @@ import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../components/customHeader";
+import { StatusBar } from "expo-status-bar";
 
 export default function NovoPaciente() {
   const [nome, setNome] = useState("");
@@ -34,14 +35,14 @@ export default function NovoPaciente() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      {/* HEADER */}
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
       <CustomHeader title="Cadastrar Paciente" userName="Carlos" />
 
       <View style={{ flex: 1, padding: 16, backgroundColor: "#fff" }}>
-        {/* Header marrom */}
-
-        {/* Card cinza com formulário */}
         <View
           style={{
             backgroundColor: "#E6E6E6",

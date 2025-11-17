@@ -12,6 +12,7 @@ import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../components/customHeader";
+import { StatusBar } from "expo-status-bar";
 
 export default function DogsList() {
   const [dogs, setDogs] = useState([]);
@@ -44,13 +45,14 @@ export default function DogsList() {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      {/* HEADER */}
-      <CustomHeader title="Pacientes" userName="Carlos" />
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
 
-      {/* CONTEÚDO */}
-      <View style={{ flex: 1, padding: 16 }}>
-        {/* Campo de busca */}
+      <CustomHeader title="Pacientes" userName="Carlos" />
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
         <TextInput
           placeholder="Buscar paciente"
           value={busca}
@@ -96,7 +98,7 @@ export default function DogsList() {
                 <TouchableOpacity
                   onPress={() =>
                     router.push({
-                      pathname: "/dogs/edit",
+                      pathname: "/dogs/editar",
                       params: {
                         id_cachorro: item.id_cachorro,
                         nome: item.nome,
@@ -160,7 +162,7 @@ export default function DogsList() {
 
         {/* Botão flutuante */}
         <TouchableOpacity
-          onPress={() => router.push("/dogs/register")}
+          onPress={() => router.push("/dogs/registrar")}
           style={{
             backgroundColor: "#704C3A",
             width: 54,

@@ -18,9 +18,8 @@ export default function CustomHeader({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        elevation: 6,
+        elevation: 1,
         shadowColor: "#000",
-        shadowOpacity: 0.15,
         shadowOffset: { width: 0, height: 2 },
         alignSelf: "center",
       }}

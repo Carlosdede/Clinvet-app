@@ -11,6 +11,7 @@ import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { endpoints } from "../../src/api/endpoints";
 import api from "../../src/api/api";
+import { StatusBar } from "expo-status-bar";
 
 const largura = Dimensions.get("window").width - 20;
 
@@ -55,85 +56,88 @@ export default function GraficosDetalhados() {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#fff" }}
-      edges={["top", "left", "right"]}
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
     >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
+
       <CustomHeader title="Gráficos" userName="Carlos" />
-
-      <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: "#fff",
-          paddingHorizontal: 16,
-          paddingTop: 50, //
-        }}
-        contentContainerStyle={{
-          paddingBottom: 120, //
-        }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 20 }}>
-          Métricas Detalhadas
-        </Text>
-
-        <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
-          Convulsões por cachorro
-        </Text>
-        <BarChart
-          data={{
-            labels,
-            datasets: [{ data: values }],
-          }}
-          width={largura}
-          height={220}
-          chartConfig={{
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            color: (opacity = 1) => `rgba(107, 76, 58, ${opacity})`,
-            labelColor: () => "#000",
-          }}
-          style={{ borderRadius: 10, marginBottom: 24 }}
-        />
-
-        <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
-          Convulsões nos últimos 7 dias
-        </Text>
-        <LineChart
-          data={{
-            labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-            datasets: [{ data: [1, 2, 1, 3, 0, 2, 1] }],
-          }}
-          width={largura}
-          height={220}
-          chartConfig={{
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            color: (opacity = 1) => `rgba(194, 124, 82, ${opacity})`,
-            labelColor: () => "#000",
-          }}
-          bezier
-          style={{ borderRadius: 10, marginBottom: 24 }}
-        />
-
-        <View
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
+        <ScrollView
           style={{
-            backgroundColor: "#6B4C3A",
-            borderRadius: 15,
-            padding: 20,
-            alignItems: "center",
+            flex: 1,
+            backgroundColor: "#fff",
+            paddingHorizontal: 16,
+            paddingTop: 50, //
           }}
+          contentContainerStyle={{
+            paddingBottom: 120, //
+          }}
+          showsVerticalScrollIndicator={false}
         >
-          <Text style={{ color: "#fff", fontSize: 16 }}>
-            Cachorros monitorados
+          <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 20 }}>
+            Métricas Detalhadas
           </Text>
-          <Text style={{ color: "#fff", fontSize: 36, fontWeight: "bold" }}>
-            {labels.length}
+
+          <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
+            Convulsões por cachorro
           </Text>
-          <Text style={{ color: "#f1f1f1" }}>
-            Convulsões totais: {totalConv}
+          <BarChart
+            data={{
+              labels,
+              datasets: [{ data: values }],
+            }}
+            width={largura}
+            height={220}
+            chartConfig={{
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              color: (opacity = 1) => `rgba(107, 76, 58, ${opacity})`,
+              labelColor: () => "#000",
+            }}
+            style={{ borderRadius: 10, marginBottom: 24 }}
+          />
+
+          <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
+            Convulsões nos últimos 7 dias
           </Text>
-        </View>
-      </ScrollView>
+          <LineChart
+            data={{
+              labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+              datasets: [{ data: [1, 2, 1, 3, 0, 2, 1] }],
+            }}
+            width={largura}
+            height={220}
+            chartConfig={{
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              color: (opacity = 1) => `rgba(194, 124, 82, ${opacity})`,
+              labelColor: () => "#000",
+            }}
+            bezier
+            style={{ borderRadius: 10, marginBottom: 24 }}
+          />
+
+          <View
+            style={{
+              backgroundColor: "#6B4C3A",
+              borderRadius: 15,
+              padding: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 16 }}>
+              Cachorros monitorados
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 36, fontWeight: "bold" }}>
+              {labels.length}
+            </Text>
+            <Text style={{ color: "#f1f1f1" }}>
+              Convulsões totais: {totalConv}
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

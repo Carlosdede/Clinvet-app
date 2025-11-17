@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function AlertsScreen() {
   const [alerts, setAlerts] = useState([]);
@@ -32,34 +33,40 @@ export default function AlertsScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
+
       <CustomHeader title="Alertas" userName="Carlos" />
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
+        <View style={styles.container}>
+          <FlatList
+            data={alerts}
+            keyExtractor={(item, idx) => String(item.id_alerta ?? idx)}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.card}>
+                <Text style={styles.tipo}>
+                  {item.tipo === "convulsao"
+                    ? "Convulsão"
+                    : item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1)}
+                </Text>
 
-      <View style={styles.container}>
-        <FlatList
-          data={alerts}
-          keyExtractor={(item, idx) => String(item.id_alerta ?? idx)}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card}>
-              <Text style={styles.tipo}>
-                {item.tipo === "convulsao"
-                  ? "Convulsão"
-                  : item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1)}
-              </Text>
-
-              <Text style={styles.cachorro}>{item.nome_cachorro}</Text>
-              <Text>Baia: {item.nome_baia}</Text>
-              <Text>Confiança: {item.confianca}</Text>
-              <Text>
-                Data:{" "}
-                {new Date(item.data_hora).toLocaleString("pt-BR", {
-                  timeZone: "America/Sao_Paulo",
-                })}
-              </Text>
-            </TouchableOpacity>
-          )}
-          ListEmptyComponent={<Text>Nenhum alerta.</Text>}
-        />
+                <Text style={styles.cachorro}>{item.nome_cachorro}</Text>
+                <Text>Baia: {item.nome_baia}</Text>
+                <Text>Confiança: {item.confianca}</Text>
+                <Text>
+                  Data:{" "}
+                  {new Date(item.data_hora).toLocaleString("pt-BR", {
+                    timeZone: "America/Sao_Paulo",
+                  })}
+                </Text>
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={<Text>Nenhum alerta.</Text>}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

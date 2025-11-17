@@ -7,6 +7,7 @@ import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function AssociarCachorro() {
   const { id_baia, nome_baia } = useLocalSearchParams();
@@ -49,61 +50,71 @@ export default function AssociarCachorro() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
-      <CustomHeader title="Adicionar Paciente" userName="Carlos" />
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 16,
-        }}
-      >
+      <CustomHeader title="Adicionar Paciente" userName="Carlos" />
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
         <View
           style={{
-            backgroundColor: "#E2E2E2",
-            width: "85%",
-            borderRadius: 10,
-            padding: 20,
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 16,
           }}
         >
-          <Text style={{ marginBottom: 8 }}>Paciente:</Text>
-
-          <Picker
-            selectedValue={selecionado}
-            onValueChange={(val) => setSelecionado(val)}
+          <View
             style={{
-              backgroundColor: "#FFF",
-              borderRadius: 8,
-              marginBottom: 20,
+              backgroundColor: "#E2E2E2",
+              width: "85%",
+              borderRadius: 10,
+              padding: 20,
             }}
           >
-            <Picker.Item label="Selecione o paciente" value="" />
-            {Array.isArray(cachorros) &&
-              cachorros.map((c) => (
-                <Picker.Item
-                  key={c.id_cachorro}
-                  label={c.nome}
-                  value={c.id_cachorro}
-                />
-              ))}
-          </Picker>
+            <Text style={{ marginBottom: 8 }}>Paciente:</Text>
 
-          <TouchableOpacity
-            onPress={associar}
-            style={{
-              backgroundColor: "#D9534F",
-              padding: 12,
-              borderRadius: 8,
-            }}
-          >
-            <Text
-              style={{ color: "#FFF", textAlign: "center", fontWeight: "bold" }}
+            <Picker
+              selectedValue={selecionado}
+              onValueChange={(val) => setSelecionado(val)}
+              style={{
+                backgroundColor: "#FFF",
+                borderRadius: 8,
+                marginBottom: 20,
+              }}
             >
-              Associar
-            </Text>
-          </TouchableOpacity>
+              <Picker.Item label="Selecione o paciente" value="" />
+              {Array.isArray(cachorros) &&
+                cachorros.map((c) => (
+                  <Picker.Item
+                    key={c.id_cachorro}
+                    label={c.nome}
+                    value={c.id_cachorro}
+                  />
+                ))}
+            </Picker>
+
+            <TouchableOpacity
+              onPress={associar}
+              style={{
+                backgroundColor: "#D9534F",
+                padding: 12,
+                borderRadius: 8,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#FFF",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Associar
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

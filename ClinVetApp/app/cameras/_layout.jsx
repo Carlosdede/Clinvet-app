@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
 
-export default function CamerasLayout() {
-  return <Stack />;
+export default function Layout() {
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

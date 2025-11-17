@@ -6,12 +6,21 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "clinvetapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "statusBar": {
+        "backgroundColor": "#6B4C3A",
+        "translucent": false,
+        "barStyle": "light-content"
+      },
+      "navigationBar": {
+        "backgroundColor": "#FFFFFF",
+        "barStyle": "dark-content"
+      },
       "package": "com.carlosdede.meuappexpo",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE"

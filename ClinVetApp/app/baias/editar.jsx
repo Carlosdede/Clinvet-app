@@ -7,6 +7,7 @@ import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import CustomHeader from "../../components/customHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function EditarBaia() {
   const { id_baia, nome_baia, tem_cachorro } = useLocalSearchParams();
@@ -29,7 +30,7 @@ export default function EditarBaia() {
       });
       setCachorros(data.pacientes || []);
     } catch (error) {
-      console.error("❌ Erro ao carregar cachorros:", error);
+      console.error("Erro ao carregar cachorros:", error);
     }
   }
 
@@ -38,7 +39,7 @@ export default function EditarBaia() {
 
     try {
       const token = await AsyncStorage.getItem("token");
-      console.log("➡️ PUT", `${endpoints.baias}/${id_baia}`, {
+      console.log("PUT", `${endpoints.baias}/${id_baia}`, {
         nome_baia: nome,
         id_cachorro: cachorroSelecionado || null,
       });
@@ -53,7 +54,7 @@ export default function EditarBaia() {
       router.back();
     } catch (error) {
       console.error(
-        "❌ Erro ao atualizar baia:",
+        "Erro ao atualizar baia:",
         error.response?.data || error.message
       );
       Alert.alert("Erro", "Falha ao atualizar baia. Veja o console.");
@@ -69,7 +70,7 @@ export default function EditarBaia() {
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem("token");
-            console.log("➡️ DELETE", `${endpoints.baiaCachorro}/${id_baia}`);
+            console.log(" DELETE", `${endpoints.baiaCachorro}/${id_baia}`);
 
             await api.delete(`${endpoints.baiaCachorro}/${id_baia}`, {
               headers: { Authorization: `Bearer ${token}` },
@@ -79,7 +80,7 @@ export default function EditarBaia() {
             Alert.alert("Sucesso", "Cachorro removido da baia!");
           } catch (error) {
             console.error(
-              "❌ Erro ao remover cachorro:",
+              " Erro ao remover cachorro:",
               error.response?.data || error.message
             );
             Alert.alert("Erro", "Falha ao remover cachorro. Veja o console.");
@@ -98,7 +99,7 @@ export default function EditarBaia() {
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem("token");
-            console.log("➡️ DELETE", `${endpoints.baias}/${id_baia}`);
+            console.log("DELETE", `${endpoints.baias}/${id_baia}`);
 
             await api.delete(`${endpoints.baias}/${id_baia}`, {
               headers: { Authorization: `Bearer ${token}` },
@@ -108,7 +109,7 @@ export default function EditarBaia() {
             router.back();
           } catch (error) {
             console.error(
-              "❌ Erro ao excluir baia:",
+              " Erro ao excluir baia:",
               error.response?.data || error.message
             );
             Alert.alert("Erro", "Falha ao excluir baia. Veja o console.");
@@ -119,78 +120,67 @@ export default function EditarBaia() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
+
       <CustomHeader title="Editar Baia" userName="Carlos" />
-      <View
-        style={{
-          flex: 1,
-          padding: 16,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
         <View
           style={{
-            backgroundColor: "#E2E2E2",
-            width: "85%",
-            borderRadius: 10,
-            padding: 20,
+            flex: 1,
+            padding: 16,
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Text style={{ marginBottom: 8 }}>Nome da Baia:</Text>
-          <TextInput
-            value={nome}
-            onChangeText={setNome}
-            placeholder="Digite o nome da baia"
+          <View
             style={{
-              backgroundColor: "#FFF",
-              borderRadius: 8,
-              padding: 10,
-              marginBottom: 20,
-            }}
-          />
-
-          <Text style={{ marginBottom: 8 }}>Paciente associado:</Text>
-          <Picker
-            selectedValue={cachorroSelecionado}
-            onValueChange={(val) => setCachorroSelecionado(val)}
-            style={{
-              backgroundColor: "#FFF",
-              borderRadius: 8,
-              marginBottom: 20,
+              backgroundColor: "#E2E2E2",
+              width: "85%",
+              borderRadius: 10,
+              padding: 20,
             }}
           >
-            <Picker.Item label="Selecione um paciente" value="" />
-            {cachorros.map((c) => (
-              <Picker.Item
-                key={c.id_cachorro}
-                label={c.nome}
-                value={c.id_cachorro}
-              />
-            ))}
-          </Picker>
-
-          <TouchableOpacity
-            onPress={atualizar}
-            style={{
-              backgroundColor: "#7B4F3A",
-              padding: 12,
-              borderRadius: 8,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{ color: "#FFF", textAlign: "center", fontWeight: "bold" }}
-            >
-              Salvar Alterações
-            </Text>
-          </TouchableOpacity>
-
-          {temCachorroAssociado && (
-            <TouchableOpacity
-              onPress={removerCachorro}
+            <Text style={{ marginBottom: 8 }}>Nome da Baia:</Text>
+            <TextInput
+              value={nome}
+              onChangeText={setNome}
+              placeholder="Digite o nome da baia"
               style={{
-                backgroundColor: "#DBA67A",
+                backgroundColor: "#FFF",
+                borderRadius: 8,
+                padding: 10,
+                marginBottom: 20,
+              }}
+            />
+
+            <Text style={{ marginBottom: 8 }}>Paciente associado:</Text>
+            <Picker
+              selectedValue={cachorroSelecionado}
+              onValueChange={(val) => setCachorroSelecionado(val)}
+              style={{
+                backgroundColor: "#FFF",
+                borderRadius: 8,
+                marginBottom: 20,
+              }}
+            >
+              <Picker.Item label="Selecione um paciente" value="" />
+              {cachorros.map((c) => (
+                <Picker.Item
+                  key={c.id_cachorro}
+                  label={c.nome}
+                  value={c.id_cachorro}
+                />
+              ))}
+            </Picker>
+
+            <TouchableOpacity
+              onPress={atualizar}
+              style={{
+                backgroundColor: "#7B4F3A",
                 padding: 12,
                 borderRadius: 8,
                 marginBottom: 10,
@@ -198,30 +188,56 @@ export default function EditarBaia() {
             >
               <Text
                 style={{
-                  color: "#000",
+                  color: "#FFF",
                   textAlign: "center",
                   fontWeight: "bold",
                 }}
               >
-                Remover Paciente da Baia
+                Salvar Alterações
               </Text>
             </TouchableOpacity>
-          )}
 
-          <TouchableOpacity
-            onPress={excluirBaia}
-            style={{
-              backgroundColor: "#D9534F",
-              padding: 12,
-              borderRadius: 8,
-            }}
-          >
-            <Text
-              style={{ color: "#FFF", textAlign: "center", fontWeight: "bold" }}
+            {temCachorroAssociado && (
+              <TouchableOpacity
+                onPress={removerCachorro}
+                style={{
+                  backgroundColor: "#DBA67A",
+                  padding: 12,
+                  borderRadius: 8,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#000",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Remover Paciente da Baia
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity
+              onPress={excluirBaia}
+              style={{
+                backgroundColor: "#D9534F",
+                padding: 12,
+                borderRadius: 8,
+              }}
             >
-              Excluir Baia
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: "#FFF",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Excluir Baia
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

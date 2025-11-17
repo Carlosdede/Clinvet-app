@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import api from "../../src/api/api";
 import { endpoints } from "../../src/api/endpoints";
 import CustomHeader from "../../components/customHeader";
+import { StatusBar } from "expo-status-bar";
 
 export default function EditarPaciente() {
   const { id_cachorro, nome, raca, idade } = useLocalSearchParams();
@@ -55,10 +56,14 @@ export default function EditarPaciente() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
       <CustomHeader title="Editar Paciente" userName="Carlos" />
 
-      <View style={{ flex: 1, padding: 16 }}>
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
         <View
           style={{
             backgroundColor: "#E6E6E6",

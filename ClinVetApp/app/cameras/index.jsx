@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { getCameraUrl } from "../../utils/cameraConfig";
 import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import CustomHeader from "../../components/customHeader";
 
 export default function CameraPreview() {
   const [previewOn, setPreviewOn] = useState(false);
@@ -40,48 +43,58 @@ export default function CameraPreview() {
   }, [previewOn, cameraUrl]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <View style={styles.headerRow}>
-          <Text style={styles.title}>Câmera 01</Text>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#6B4C3A" }}
+      edges={["top"]}
+    >
+      <StatusBar style="light" backgroundColor="#6B4C3A" />
 
-          <TouchableOpacity
-            style={styles.configButton}
-            onPress={() => router.push("/cameras/config")}
-          >
-            <Text style={styles.configText}>⚙️</Text>
-          </TouchableOpacity>
-        </View>
+      <CustomHeader title="Cameras" userName="Carlos" />
+      <View style={{ flex: 1, backgroundColor: "#FFF", padding: 16 }}>
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <View style={styles.headerRow}>
+              <Text style={styles.title}>Câmera 01</Text>
 
-        <View style={styles.previewContainer}>
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              style={styles.preview}
-              resizeMode="cover"
-            />
-          ) : (
-            <View style={[styles.preview, styles.previewOff]}>
-              <Text style={styles.previewOffText}>
-                {loading ? "Carregando..." : "Prévia desligada"}
-              </Text>
+              <TouchableOpacity
+                style={styles.configButton}
+                onPress={() => router.push("/cameras/config")}
+              >
+                <Text style={styles.configText}>⚙️</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        </View>
 
-        <TouchableOpacity
-          style={[
-            styles.button,
-            previewOn ? styles.buttonStop : styles.buttonStart,
-          ]}
-          onPress={() => setPreviewOn((prev) => !prev)}
-        >
-          <Text style={styles.buttonText}>
-            {previewOn ? "Parar Prévia" : "Iniciar Prévia"}
-          </Text>
-        </TouchableOpacity>
+            <View style={styles.previewContainer}>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={styles.preview}
+                  resizeMode="cover"
+                />
+              ) : (
+                <View style={[styles.preview, styles.previewOff]}>
+                  <Text style={styles.previewOffText}>
+                    {loading ? "Carregando..." : "Prévia desligada"}
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            <TouchableOpacity
+              style={[
+                styles.button,
+                previewOn ? styles.buttonStop : styles.buttonStart,
+              ]}
+              onPress={() => setPreviewOn((prev) => !prev)}
+            >
+              <Text style={styles.buttonText}>
+                {previewOn ? "Parar Prévia" : "Iniciar Prévia"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
