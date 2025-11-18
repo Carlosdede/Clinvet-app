@@ -11,12 +11,14 @@ import { useRouter } from "expo-router";
 import api from "../src/api/api";
 import { endpoints } from "../src/api/endpoints";
 
-const largura = Dimensions.get("window").width - 40;
-
 export default function MetricsChart() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const screenWidth = Dimensions.get("window").width;
+  const chartSize = screenWidth * 0.4;
+  const paddingLeftCenter = screenWidth * 0.11; // centralização universal
 
   async function carregarMetricas() {
     try {
@@ -28,13 +30,10 @@ export default function MetricsChart() {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     carregarMetricas();
-
-    const interval = setInterval(() => {
-      carregarMetricas();
-    }, 10000);
-
+    const interval = setInterval(() => carregarMetricas(), 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -54,22 +53,14 @@ export default function MetricsChart() {
     );
   }
 
-  const cores = [
-    "#8B5E3C",
-    "#C27C52",
-    "#E9C46A",
-    "#F4A261",
-    "#E76F51",
-    "#2A9D8F",
-    "#264653",
-  ];
+  const coresClinvet = ["#8B5E3C", "#C27C52", "#E9C46A", "#F4A261"];
 
   const chartData = data.map((item, index) => ({
     name: item.nome_cachorro,
     population: Number(item.total_convulsoes),
-    color: cores[index % cores.length],
+    color: coresClinvet[index % coresClinvet.length],
     legendFontColor: "#333",
-    legendFontSize: 13,
+    legendFontSize: 14,
   }));
 
   return (
@@ -79,78 +70,120 @@ export default function MetricsChart() {
       style={{
         backgroundColor: "#F8F8F8",
         borderRadius: 20,
-        paddingVertical: 14,
-        paddingHorizontal: 30,
+        paddingVertical: 18,
+        paddingHorizontal: 22,
         shadowColor: "#000",
-        shadowRadius: 3,
-        elevation: 2,
+        shadowOpacity: 0,
+        shadowRadius: 5,
+        elevation: 0,
+        width: "100%",
         alignItems: "center",
-        justifyContent: "center",
       }}
     >
       <Text
         style={{
-          fontSize: 16,
+          fontSize: 17,
           fontWeight: "700",
           color: "#4A3B31",
-          marginBottom: 10,
+          marginBottom: 12,
           textAlign: "center",
         }}
       >
         Convulsões por cachorro (último mês)
       </Text>
 
+      {/* GRÁFICO CENTRALIZADO */}
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: 10,
+        }}
+      >
+        <PieChart
+          data={chartData}
+          width={chartSize}
+          height={chartSize}
+          accessor="population"
+          backgroundColor="transparent"
+          hasLegend={false}
+          center={[0, 0]}
+          paddingLeft={paddingLeftCenter}
+          absolute
+          chartConfig={{
+            color: () => "#000",
+          }}
+        />
+      </View>
+
+      {/* LEGENDA */}
       <View
         style={{
           flexDirection: "row",
-          alignItems: "center",
           justifyContent: "center",
+          marginTop: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        {chartData.map((item, i) => (
+          <View
+            key={i}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginHorizontal: 10,
+              marginBottom: 6,
+            }}
+          >
+            <View
+              style={{
+                width: 12,
+                height: 12,
+                backgroundColor: item.color,
+                borderRadius: 3,
+                marginRight: 6,
+              }}
+            />
+            <Text style={{ fontSize: 14, color: "#333" }}>{item.name}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* TABELA EM ROW */}
+      <View
+        style={{
+          width: "100%",
+          marginTop: 5,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <View
           style={{
-            width: largura / 2,
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "55%",
           }}
         >
-          <PieChart
-            data={chartData}
-            width={largura / 1.6}
-            height={140}
-            accessor={"population"}
-            backgroundColor={"transparent"}
-            hasLegend={false}
-            paddingLeft={"25"}
-            center={[0, 0]}
-            absolute
-            chartConfig={{
-              color: () => "#000",
-            }}
-          />
-        </View>
-
-        <View style={{ flex: 1, paddingLeft: 10 }}>
-          {chartData.map((item, index) => (
+          {chartData.map((item, i) => (
             <View
-              key={index}
+              key={i}
               style={{
-                flexDirection: "row",
                 alignItems: "center",
-                marginBottom: 6,
+                width: "50%",
               }}
             >
-              <View
+              {/* NÚMEROS */}
+              <Text
                 style={{
-                  width: 12,
-                  height: 12,
-                  backgroundColor: item.color,
-                  borderRadius: 3,
-                  marginRight: 8,
+                  fontSize: 18,
+                  fontWeight: "700",
+                  color: item.color,
+                  marginBottom: 4,
                 }}
-              />
-              <Text style={{ fontSize: 13, color: "#333" }}>
-                {item.name}: {item.population}
+              >
+                {item.population}
               </Text>
             </View>
           ))}

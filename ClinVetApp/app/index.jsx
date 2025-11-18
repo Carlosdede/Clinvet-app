@@ -7,6 +7,9 @@ import {
   Alert,
   Image,
   StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 import { router } from "expo-router";
 import api from "../src/api/api";
@@ -29,44 +32,58 @@ export default function LoginScreen() {
       }
     } catch (e) {
       console.error("Erro no login:", e);
+
+      if (e.response) {
+        const msg = e.response.data?.error || "Erro de autenticação.";
+        return Alert.alert("Erro", msg);
+      }
+
       Alert.alert("Erro", "Falha ao comunicar com o servidor.");
     }
   }
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/images/logo.png")}
-        style={styles.logo}
-      />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Image
+          source={require("../assets/images/logo.png")}
+          style={styles.logo}
+        />
 
-      <Text style={styles.title}>ClinVet Security</Text>
+        <Text style={styles.title}>ClinVet Security</Text>
 
-      <TextInput
-        placeholder="Email"
-        placeholderTextColor="#B5A99D"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={username}
-        onChangeText={setEmail}
-        style={styles.input}
-      />
+        <TextInput
+          placeholder="Email"
+          placeholderTextColor="#B5A99D"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={username}
+          onChangeText={setEmail}
+          style={styles.input}
+        />
 
-      <TextInput
-        placeholder="Senha"
-        placeholderTextColor="#B5A99D"
-        secureTextEntry
-        value={senha}
-        onChangeText={setSenha}
-        style={styles.input}
-      />
+        <TextInput
+          placeholder="Senha"
+          placeholderTextColor="#B5A99D"
+          secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
+          style={styles.input}
+        />
 
-      <Text style={styles.forgotText}>Esqueceu a senha?</Text>
+        <Text style={styles.forgotText}>Esqueceu a senha?</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
