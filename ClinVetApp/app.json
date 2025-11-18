@@ -44,8 +44,8 @@
         {
           "image": "./assets/images/splash.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#DBA67A"
+          "resizeMode": "cover",
+          "backgroundColor": "#D8A878"
         }
       ]
     ],
