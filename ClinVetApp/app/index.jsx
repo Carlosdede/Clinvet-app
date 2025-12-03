@@ -16,13 +16,22 @@ import api from "../src/api/api";
 import { endpoints } from "../src/api/endpoints";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { registerForPushNotificationsAsync } from "../src/services/notifications";
+
 export default function LoginScreen() {
   const [username, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   async function handleLogin() {
     try {
-      const { data } = await api.post(endpoints.login, { username, senha });
+      const expoToken = await registerForPushNotificationsAsync();
+      console.log("EXPO TOKEN GERADO:", expoToken);
+
+      const { data } = await api.post(endpoints.login, {
+        username,
+        senha,
+        expo_token: expoToken,
+      });
 
       if (data?.token) {
         await AsyncStorage.setItem("token", data.token);

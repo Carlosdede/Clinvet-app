@@ -11,10 +11,18 @@ Notifications.setNotificationHandler({
 
 export async function registerForPushNotificationsAsync() {
   let { status } = await Notifications.getPermissionsAsync();
+
   if (status !== "granted") {
     const req = await Notifications.requestPermissionsAsync();
     status = req.status;
   }
+
+  if (status !== "granted") {
+    return null;
+  }
+
+  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  console.log("Expo Push Token:", token);
 
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("alerts", {
@@ -25,11 +33,10 @@ export async function registerForPushNotificationsAsync() {
     });
   }
 
-  return status === "granted";
+  return token;
 }
 
 export async function notifyAlert(alert) {
-  // alert: { tipo, nome_baia, confianca, data_hora }
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "Alerta detectado",

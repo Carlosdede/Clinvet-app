@@ -19,11 +19,12 @@ export default function RootLayout() {
 
   useEffect(() => {
     (async () => {
-      const granted = await registerForPushNotificationsAsync();
-      if (granted) {
-        console.log("Notificações habilitadas.");
+      const expoToken = await registerForPushNotificationsAsync();
+
+      if (expoToken) {
+        console.log("TOKEN EXPO GERADO:", expoToken);
       } else {
-        console.log("Permissão de notificação negada.");
+        console.log("Permissão negada ou falha ao gerar token.");
       }
 
       initSocket();
