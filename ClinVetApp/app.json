@@ -29,7 +29,9 @@
         "backgroundColor": "#E6F4FE"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["INTERNET"],
+      "usesCleartextTraffic": true
     },
 
     "web": {
