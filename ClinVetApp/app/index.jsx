@@ -23,15 +23,30 @@ export default function LoginScreen() {
   const [senha, setSenha] = useState("");
 
   async function handleLogin() {
-    try {
-      const expoToken = await registerForPushNotificationsAsync();
-      console.log("EXPO TOKEN GERADO:", expoToken);
+    console.log("Iniciando login. BASE_URL =>", api.defaults.baseURL);
 
+    let expoToken = null;
+
+    // tenta pegar token, mas não deixa o login morrer
+    try {
+      expoToken = await registerForPushNotificationsAsync();
+      console.log("EXPO TOKEN GERADO:", expoToken);
+    } catch (err) {
+      console.log(
+        "Erro inesperado ao tentar registrar push. Prosseguindo sem token.",
+        err?.message || err
+      );
+      expoToken = null;
+    }
+
+    try {
       const { data } = await api.post(endpoints.login, {
         username,
         senha,
         expo_token: expoToken,
       });
+
+      console.log("Resposta login:", data);
 
       if (data?.token) {
         await AsyncStorage.setItem("token", data.token);
@@ -40,14 +55,30 @@ export default function LoginScreen() {
         Alert.alert("Erro", "Credenciais inválidas.");
       }
     } catch (e) {
-      console.error("Erro no login:", e);
+      console.error(
+        "Erro no login detalhado:",
+        JSON.stringify(
+          {
+            message: e.message,
+            code: e.code,
+            isAxiosError: !!e.isAxiosError,
+            status: e.response?.status,
+            data: e.response?.data,
+          },
+          null,
+          2
+        )
+      );
 
       if (e.response) {
         const msg = e.response.data?.error || "Erro de autenticação.";
         return Alert.alert("Erro", msg);
       }
 
-      Alert.alert("Erro", "Falha ao comunicar com o servidor.");
+      Alert.alert(
+        "Erro",
+        "Falha ao comunicar com o servidor. Verifique sua conexão."
+      );
     }
   }
 
